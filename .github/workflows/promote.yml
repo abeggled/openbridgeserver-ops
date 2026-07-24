@@ -1,0 +1,97 @@
+name: Promote channel
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "promote: copy from the upstream channel. rollback: restore a prior git revision of the target channel's own file."
+        type: choice
+        options:
+          - promote
+          - rollback
+        required: true
+      channel:
+        description: "Target channel to update."
+        type: choice
+        options:
+          - staging
+          - stable
+        required: true
+      ref:
+        description: "Rollback only: git ref/SHA to restore channels/<channel>.json from. Leave empty to use the previous commit that touched the file."
+        required: false
+
+permissions: {}
+
+jobs:
+  promote:
+    name: ${{ inputs.action }} ${{ inputs.channel }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v7.0.0
+        with:
+          python-version: '3.x'
+
+      - name: Resolve source manifest (promote)
+        if: ${{ inputs.action == 'promote' }}
+        run: |
+          if [[ "${{ inputs.channel }}" == "staging" ]]; then
+            SOURCE_CHANNEL=canary
+          else
+            SOURCE_CHANNEL=staging
+          fi
+          echo "Promoting from $SOURCE_CHANNEL to ${{ inputs.channel }}"
+          cp "channels/$SOURCE_CHANNEL.json" /tmp/source.json
+
+      - name: Resolve source manifest (rollback)
+        if: ${{ inputs.action == 'rollback' }}
+        env:
+          CHANNEL: ${{ inputs.channel }}
+          REF: ${{ inputs.ref }}
+        run: |
+          TARGET_FILE="channels/$CHANNEL.json"
+          if [[ -n "$REF" ]]; then
+            RESOLVED_REF="$REF"
+          else
+            RESOLVED_REF=$(git log --format=%H -2 -- "$TARGET_FILE" | sed -n '2p')
+            if [[ -z "$RESOLVED_REF" ]]; then
+              echo "Error: no prior commit found for $TARGET_FILE — nothing to roll back to." >&2
+              exit 1
+            fi
+          fi
+          echo "Rolling back $TARGET_FILE to $RESOLVED_REF"
+          git show "$RESOLVED_REF:$TARGET_FILE" > /tmp/source.json
+
+      - name: Restamp manifest
+        env:
+          CHANNEL: ${{ inputs.channel }}
+          GITHUB_ACTOR: ${{ github.actor }}
+        run: |
+          python3 scripts/promote.py \
+            --channel "$CHANNEL" \
+            --source-file /tmp/source.json \
+            --actor "$GITHUB_ACTOR" \
+            --out "channels/$CHANNEL.json"
+
+      - name: Commit and push
+        env:
+          CHANNEL: ${{ inputs.channel }}
+          ACTION: ${{ inputs.action }}
+        run: |
+          if git diff --quiet -- "channels/$CHANNEL.json"; then
+            echo "No changes — channels/$CHANNEL.json already matches the resolved source."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add "channels/$CHANNEL.json"
+          git commit -m "chore(channel): $ACTION $CHANNEL"
+          git push origin HEAD:main
