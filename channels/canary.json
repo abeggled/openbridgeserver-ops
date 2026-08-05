@@ -1,8 +1,12 @@
 {
   "channel": "canary",
-  "version": null,
+  "version": "2026.8.0-RC1",
   "docker": null,
-  "lxc": null,
-  "promoted_at": null,
-  "promoted_by": null
+  "lxc": {
+    "version": "2026.8.0-RC1",
+    "asset_url": "https://github.com/abeggled/openbridgeserver/releases/download/2026.8.0-RC1/openbridgeserver-app-bundle_2026.8.0-RC1.tar.gz",
+    "sha256": "993ec3902ab704435f33d28d266af27710ef897f2a70f3d4af9aa040ef9498b9"
+  },
+  "promoted_at": "2026-08-05T14:36:07Z",
+  "promoted_by": "abeggled"
 }
