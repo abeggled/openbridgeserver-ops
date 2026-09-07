@@ -1,15 +1,15 @@
 {
   "channel": "canary",
-  "version": "2026.8.0",
+  "version": "2026.9.0",
   "docker": {
     "image": "ghcr.io/abeggled/openbridgeserver",
     "digest": "sha256:80f3a1c59076495de74a9dfbd49e8ef854e902c81d9c87e6c3f5b764b0a953d1"
   },
   "lxc": {
-    "version": "2026.8.0",
-    "asset_url": "https://github.com/abeggled/openbridgeserver/releases/download/2026.8.0/openbridgeserver-app-bundle_2026.8.0.tar.gz",
-    "sha256": "a8f39acfe04c5e985969c96fd6de33b14af7ea752edd93d940951e702e9023fe"
+    "version": "2026.9.0",
+    "asset_url": "https://github.com/abeggled/openbridgeserver/releases/download/2026.9.0/openbridgeserver-app-bundle_2026.9.0.tar.gz",
+    "sha256": "742a33c00150708e0ac8c3a8611e355e4df5c32d6948f384ce1c028638583bda"
   },
-  "promoted_at": "2026-08-10T18:45:43Z",
+  "promoted_at": "2026-09-07T19:59:12Z",
   "promoted_by": "abeggled"
 }
