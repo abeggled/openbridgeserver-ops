@@ -6,10 +6,10 @@
     "digest": "sha256:1e4738233b25b465badbcfdd6fc33742e12f247200300b412d5ccb229efc9e5a"
   },
   "lxc": {
-    "version": "2026.9.0",
-    "asset_url": "https://github.com/abeggled/openbridgeserver/releases/download/2026.9.0/openbridgeserver-app-bundle_2026.9.0.tar.gz",
-    "sha256": "742a33c00150708e0ac8c3a8611e355e4df5c32d6948f384ce1c028638583bda"
+    "version": "2026.9.1",
+    "asset_url": "https://github.com/abeggled/openbridgeserver/releases/download/2026.9.1/openbridgeserver-app-bundle_2026.9.1.tar.gz",
+    "sha256": "7b54107aee53151d6bcc02f3a8a81f83edf57d0c133c71aeeb982b700287657c"
   },
-  "promoted_at": "2026-09-08T20:40:57Z",
+  "promoted_at": "2026-09-08T20:48:36Z",
   "promoted_by": "abeggled"
 }
