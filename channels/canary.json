@@ -3,13 +3,13 @@
   "version": "2026.10.0",
   "docker": {
     "image": "ghcr.io/abeggled/openbridgeserver",
-    "digest": "sha256:1e4738233b25b465badbcfdd6fc33742e12f247200300b412d5ccb229efc9e5a"
+    "digest": "sha256:89bf4189f32f11bd1b08797771899210c3e761efb853acd436d995035edb43e0"
   },
   "lxc": {
     "version": "2026.10.0",
     "asset_url": "https://github.com/abeggled/openbridgeserver/releases/download/2026.10.0/openbridgeserver-app-bundle_2026.10.0.tar.gz",
     "sha256": "32e8253dab247e746b7704e080369038401ae9ab4933976f66f0fe00e7ff13ab"
   },
-  "promoted_at": "2026-10-08T19:42:37Z",
+  "promoted_at": "2026-10-08T19:49:03Z",
   "promoted_by": "abeggled"
 }
